@@ -77,7 +77,6 @@ def main():
     while True:
         try:
             msg = str(encoder.readpos()) + '*'
-            print(msg)
             port.write(msg.encode('utf-8'))
             time.sleep(0.001)
         except KeyboardInterrupt:
