@@ -1,6 +1,12 @@
-#!/usr/bin/env python3
+'''
+EMS22150 encoder for Raspberry Pi
+
+Copyright (c) 2021 Simon D. Levy
+
+Adapted from
 
 # https://hareshmiriyala.wordpress.com/2018/02/19/interfacing-an-absolute-encoder-to-raspberry-pi/
+'''
 
 import time
 import serial
@@ -59,32 +65,3 @@ class EMS22A50:
                     self.clockdown()
         GPIO.output(self.cs, 1)
         return data
-
-
-def main():
-
-    # -------------- CLK DAT CS
-    encoder = EMS22A50(2, 3, 4)
-
-    encoder.start()
-
-    time.sleep(0.5)
-
-    print('GPIO configuration enabled')
-
-    port = serial.Serial('/dev/ttyAMA0', 115200)
-
-    while True:
-        try:
-            msg = str(encoder.readpos()) + '*'
-            port.write(msg.encode('utf-8'))
-            time.sleep(0.001)
-        except KeyboardInterrupt:
-            break
-
-    GPIO.cleanup()
-    port.close()
-
-
-if __name__ == '__main__':
-    main()
